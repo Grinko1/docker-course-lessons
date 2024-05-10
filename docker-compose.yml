@@ -3,12 +3,10 @@ services:
   frontend:
     build: ./frontend
     container_name: example-docker-frontend
-    command: npm run start
+    command: serve -s build -l 3000
     restart: unless-stopped
     ports:
       - "3000:3000"
-    stdin_open: true
-    tty: true
 
   api:
     build: ./api
@@ -54,3 +52,6 @@ services:
 volumes:
   mongodb_api:
   mongodb_auth:
+  frontend:
+
+
