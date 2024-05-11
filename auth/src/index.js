@@ -28,7 +28,6 @@ app.get("/api/currentUser", (req, res) => {
     });
 });
 app.get("/testApiData", (req, res) => {
-    console.log("auth api url", apiUrl);
     axios.get(apiUrl + '/testWithApiData').then(response => {
         console.log(response);
         res.json({

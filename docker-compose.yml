@@ -5,16 +5,18 @@ services:
     container_name: example-docker-FRONTEND
     command: serve -s build -l 3000
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
+    networks:
+      - example-docker-network
 
   api:
     build: ./api
     container_name: example-docker-API
     command: npm run start
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
 
     environment:
       - PORT=8000
@@ -23,14 +25,16 @@ services:
       - AUTH_API_URL=http://auth:8001/api
     depends_on:
       - api_db
+    networks:
+      - example-docker-network
 
   auth:
     build: ./auth
     container_name: example-docker-AUTH
     command: npm run start
     restart: unless-stopped
-    ports:
-      - "8001:8001"
+    # ports:
+    #   - "8001:8001"
     environment:
       - PORT=8001
       - HOST=http://auth-example-host.com
@@ -38,18 +42,24 @@ services:
       - API_URL=http://api:8000/api
     depends_on:
       - auth_db
+    networks:
+      - example-docker-network
 
   auth_db:
     image: mongo:latest
     container_name: example-docker-AUTH_DB
     volumes:
       - mongodb_auth:/data/db
+    networks:
+      - example-docker-network
 
   api_db:
     image: mongo:latest
     container_name: example-docker-API_DB
     volumes:
       - mongodb_api:/data/db
+    networks:
+      - example-docker-network
   nginx:
     image: nginx:stable-alpine
     container_name: example-docker-NGINX
@@ -57,6 +67,8 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    networks:
+      - example-docker-network
     depends_on:
       - frontend
 volumes:
@@ -64,3 +76,6 @@ volumes:
   mongodb_auth:
 
 
+networks:
+  example-docker-network:
+    driver: bridge

@@ -40,13 +40,19 @@ const startServer = () => {
     })
 }
 
+app.get('/posts', async (req, res) => {
+    const posts = await Post.find()
+    posts.forEach(p => {
+        console.log("posts in db", p.name);
+    })
+    res.json(posts)
+})
 
 
 app.get('/test', (req, res) => {
     res.send('Our api server is working correctly with auto updates')
 })
 app.get('/testwithcurrentuser', (req, response) => {
-    console.log("auth api url", authApiUrl);
     axios.get(authApiUrl + '/currentUser').then(res => {
         response.json({
             testwithcurrentuser: true,
