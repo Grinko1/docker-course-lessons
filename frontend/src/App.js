@@ -1,7 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react'
 
 function App() {
+  const [posts, setPost] = useState([])
+  // fetch(('http://example-docker.com/').then(res => {
+  //   setPost(res)
+  // }))
   return (
     <div className="App">
       <header className="App-header">

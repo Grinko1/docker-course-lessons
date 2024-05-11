@@ -2,7 +2,7 @@ version: '3'
 services:
   frontend:
     build: ./frontend
-    container_name: example-docker-frontend
+    container_name: example-docker-FRONTEND
     command: serve -s build -l 3000
     restart: unless-stopped
     ports:
@@ -10,7 +10,7 @@ services:
 
   api:
     build: ./api
-    container_name: example-docker-api
+    container_name: example-docker-API
     command: npm run start
     restart: unless-stopped
     ports:
@@ -20,12 +20,13 @@ services:
       - PORT=8000
       - HOST=http://api-example-host.com
       - MONGO_URL=mongodb://api_db:27017/api
+      - AUTH_API_URL=http://auth:8001/api
     depends_on:
       - api_db
 
   auth:
     build: ./auth
-    container_name: example-docker-auth
+    container_name: example-docker-AUTH
     command: npm run start
     restart: unless-stopped
     ports:
@@ -39,19 +40,26 @@ services:
 
   auth_db:
     image: mongo:latest
-    container_name: example-docker-authdb
+    container_name: example-docker-AUTH_DB
     volumes:
       - mongodb_auth:/data/db
 
   api_db:
     image: mongo:latest
-    container_name: example-docker-api_db
+    container_name: example-docker-API_DB
     volumes:
       - mongodb_api:/data/db
-
+  nginx:
+    image: nginx:stable-alpine
+    container_name: example-docker-NGINX
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - frontend
 volumes:
   mongodb_api:
   mongodb_auth:
-  frontend:
 
 
