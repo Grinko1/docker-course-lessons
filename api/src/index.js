@@ -61,7 +61,7 @@ app.get('/testwithcurrentuser', (req, response) => {
     })
 
 })
-app.get('/api/testWithApiData', (req, response) => {
+app.get('/testWithApiData', (req, response) => {
     response.json({
         testWithApi: true,
     })

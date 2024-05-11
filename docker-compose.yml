@@ -22,7 +22,7 @@ services:
       - PORT=8000
       - HOST=http://api-example-host.com
       - MONGO_URL=mongodb://api_db:27017/api
-      - AUTH_API_URL=http://auth:8001/api
+      - AUTH_API_URL=http://auth:8001/auth/api
     depends_on:
       - api_db
     networks:
@@ -71,6 +71,8 @@ services:
       - example-docker-network
     depends_on:
       - frontend
+      - api
+      - auth
 volumes:
   mongodb_api:
   mongodb_auth:
