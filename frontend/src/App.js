@@ -24,7 +24,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={fetchPosts}>Fetch Posts</button>
         <p>
-          Edited!!! <code>src/App.js</code> and save to reload. new
+          CHECK SOCKETS!!! <code>src/App.js</code> and save to reload. new
         </p>
         <a
           className="App-link"
