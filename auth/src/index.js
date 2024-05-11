@@ -1,6 +1,7 @@
 const express = require('express');
 const { connectDb } = require('./helper/db');
-const { port, host, db } = require('./config');
+const { port, host, db, apiUrl } = require('./config');
+const axios = require('axios')
 
 const app = express()
 
@@ -11,6 +12,7 @@ const startServer = () => {
         console.log(`Started AUTH service on port ${port}`);
         console.log(`Host from env is ${host}`);
         console.log(`Db url is ${db}`);
+        console.log(`Api Url is ${apiUrl}`);
     })
 }
 
@@ -24,6 +26,16 @@ app.get("/api/currentUser", (req, res) => {
         id: "1234",
         email: "foo@gmail.com"
     });
+});
+app.get("/testApiData", (req, res) => {
+    console.log("auth api url", apiUrl);
+    axios.get(apiUrl + '/testWithApiData').then(response => {
+        console.log(response);
+        res.json({
+            dataFromApi: response.data
+        });
+    })
+
 });
 
 connectDb()

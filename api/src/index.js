@@ -48,11 +48,16 @@ app.get('/test', (req, res) => {
 app.get('/testwithcurrentuser', (req, response) => {
     console.log("auth api url", authApiUrl);
     axios.get(authApiUrl + '/currentUser').then(res => {
-        console.log(res.data);
         response.json({
             testwithcurrentuser: true,
             currentUser: res.data
         })
+    })
+
+})
+app.get('/api/testWithApiData', (req, response) => {
+    response.json({
+        testWithApi: true,
     })
 
 })
